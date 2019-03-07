@@ -7,7 +7,7 @@ This is the library to control a IQ Motion Control Module with an Arduino
 ## Getting Started
 
 You can download the latest stable release of this library on the arduino IDE [library manager](https://www.arduino.cc/en/guide/libraries). Just look up "IQ Module Communication".  
-  
+A .zip of the library can also be found on our [website](http://iq-control.com/libraries). Follow these [instructions](https://www.arduino.cc/en/guide/libraries#toc4) to install a library manually. 
 
 ### Prerequisites
 
@@ -20,8 +20,8 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).  
-For the releases available, see the [releases on this repository](add.correct.link).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/iq-motion-control/iq-module-communication-arduino/tags).  
+For the releases available, see the [releases on this repository](https://github.com/iq-motion-control/iq-module-communication-arduino/releases).
 
 ## Authors
 
