@@ -1,4 +1,4 @@
-![Release Version][release_badge.svg]
+![Release Version](release_badge.svg)
 
 # Arduino API
 
