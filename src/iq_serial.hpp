@@ -25,6 +25,7 @@
 
 #include "client_communication.hpp"
 #include "generic_interface.hpp"
+#include "HardwareSerial.h"
 
 class IqSerial{
   public:
