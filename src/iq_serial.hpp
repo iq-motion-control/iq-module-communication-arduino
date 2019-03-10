@@ -19,7 +19,7 @@
 
 /*
   Name: iq_serial.hpp
-  Last update: 3/7/2019 by Matthew Piccoli
+  Last update: 3/9/2019 by Matthew Piccoli
   Author: Matthew Piccoli
 */
 
@@ -29,48 +29,9 @@
 
 class IqSerial{
   public:
-    IqSerial(int num)
+    IqSerial(HardwareSerial &my_serial)
     {
-      my_serial_ = &Serial;
-      
-      switch(num)
-      {
-        #ifdef HAVE_HWSERIAL1
-        case 1:
-          my_serial_ = &Serial1;
-          break;
-        #endif
-        #ifdef HAVE_HWSERIAL2
-        case 2:
-          my_serial_ = &Serial2;
-          break;
-        #endif
-        #ifdef HAVE_HWSERIAL3
-        case 3:
-          my_serial_ = &Serial3;
-          break;
-        #endif
-        #ifdef HAVE_HWSERIAL4
-        case 4:
-          my_serial_ = &Serial4;
-          break;
-        #endif
-        #ifdef HAVE_HWSERIAL5
-        case 5:
-          my_serial_ = &Serial5;
-          break;
-        #endif
-        #ifdef HAVE_HWSERIAL6
-        case 6:
-          my_serial_ = &Serial6;
-          break;
-        #endif
-        #ifdef HAVE_HWSERIAL7
-        case 7:
-          my_serial_ = &Serial7;
-          break;
-        #endif
-      }
+      my_serial_ = &my_serial;
     }
     
     IqSerial()
@@ -108,7 +69,7 @@ class IqSerial{
       sendBytes();
       
       unsigned long start_time = millis();
-      while(millis() < start_time + 10 && getBytes(entry))
+      while((millis() < start_time + 10) && !getBytes(entry))
       {}
         
       if(entry.IsFresh())
