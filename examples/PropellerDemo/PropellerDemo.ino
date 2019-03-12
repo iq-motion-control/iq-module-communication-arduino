@@ -27,7 +27,7 @@ const float kSpeedStep = 1.0f;
 // END USER SETABLE VALUES-----------------------------------------------------
 
 // Make an IqSerial object using Serial0 (same as Serial)
-IqSerial ser(0);
+IqSerial ser(Serial);
 // Make a PropellerMotorControlClient to interface with a motor module (ID 0)
 PropellerMotorControlClient prop(0);
 
