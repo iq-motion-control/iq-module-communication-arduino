@@ -27,7 +27,7 @@ const float kTime = 5;
 // END USER SETABLE VALUES-----------------------------------------------------
 
 // Make an IqSerial object using Serial0 (same as Serial)
-IqSerial ser(0);
+IqSerial ser(Serial);
 // Make a MultiTurnAngleControlClient to interface with a motor module (ID 0)
 MultiTurnAngleControlClient angle(0);
 
