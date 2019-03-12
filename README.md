@@ -1,6 +1,4 @@
-![Release Version](http://174.138.61.14/badges/API/arduino_release.svg)
-
-<img src="http://174.138.61.14/badges/API/arduino_release.svg" alt="Release Version"/>
+![Release Version](release_badge.svg)
 
 # Arduino API
 
