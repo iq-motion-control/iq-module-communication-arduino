@@ -1,4 +1,4 @@
-![Release Version](http://174.138.61.14/badges/API/arduino_release.svg)
+![Release Version](http://174.138.61.14/badges/API/arduino_release.svg?cacheSeconds=2592000)
 
 # Arduino API
 
