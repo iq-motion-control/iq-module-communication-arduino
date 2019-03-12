@@ -1,4 +1,4 @@
-![Release Version](http://174.138.61.14/badges/API/arduino_release.svg?cacheSeconds=2592000)
+![Release Version](http://174.138.61.14/badges/API/arduino_release.svg?max-age=5)
 
 # Arduino API
 
