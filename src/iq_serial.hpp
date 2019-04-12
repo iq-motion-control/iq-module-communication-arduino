@@ -19,7 +19,7 @@
 
 /*
   Name: iq_serial.hpp
-  Last update: 3/9/2019 by Matthew Piccoli
+  Last update: 4/12/2019 by Matthew Piccoli
   Author: Matthew Piccoli
 */
 
@@ -32,11 +32,6 @@ class IqSerial{
     IqSerial(HardwareSerial &my_serial)
     {
       my_serial_ = &my_serial;
-    }
-    
-    IqSerial()
-    {
-      my_serial_ = &Serial;
     }
     
     void begin(unsigned long baud)
