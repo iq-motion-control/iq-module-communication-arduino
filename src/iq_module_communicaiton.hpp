@@ -19,7 +19,7 @@
 
 /*
   Name: iq_module_communication.hpp
-  Last update: 3/7/2019 by Matthew Piccoli
+  Last update: 4/12/2019 by Matthew Piccoli
   Author: Matthew Piccoli
 */
 
@@ -39,3 +39,4 @@
 #include "system_control_client.hpp"
 #include "temperature_monitor_uc_client.hpp"
 #include "temperature_estimator_client.hpp"
+#include "persistent_memory_client.hpp"
