@@ -17,7 +17,7 @@
  *  This example code is in the public domain.
  */
 
-#include <iq_module_communicaiton.hpp>
+#include <iq_module_communication.hpp>
 
  // USER SETABLE VALUES HERE---------------------------------------------------
 // Sets the angle to go to in radians
@@ -26,8 +26,8 @@ const float kAngle = 12.0f*PI;
 const float kTime = 5;
 // END USER SETABLE VALUES-----------------------------------------------------
 
-// Make an IqSerial object using Serial0 (same as Serial)
-IqSerial ser(Serial);
+// Make an IqSerial object using Serial1
+IqSerial ser(Serial1);
 // Make a MultiTurnAngleControlClient to interface with a motor module (ID 0)
 MultiTurnAngleControlClient angle(0);
 
@@ -55,7 +55,7 @@ void loop() {
   {
     // Gets ctrl_mode_ from the module and puts the result in the mode variable
     ser.get(angle.ctrl_mode_, mode);
-  }while(mode == 4); // Check if the motor is still executing the last trajectory
+  }while(mode == 6); // Check if the motor is still executing the last trajectory
   
   // Send next message
   if(spin_direction == 1)
