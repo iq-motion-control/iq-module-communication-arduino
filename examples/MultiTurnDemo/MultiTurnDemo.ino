@@ -55,7 +55,7 @@ void loop() {
   {
     // Gets ctrl_mode_ from the module and puts the result in the mode variable
     ser.get(angle.ctrl_mode_, mode);
-  }while(mode == 4); // Check if the motor is still executing the last trajectory
+  }while(mode == 6); // Check if the motor is still executing the last trajectory
   
   // Send next message
   if(spin_direction == 1)
