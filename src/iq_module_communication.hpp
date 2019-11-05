@@ -19,7 +19,7 @@
 
 /*
   Name: iq_module_communication.hpp
-  Last update: 4/12/2019 by Matthew Piccoli
+  Last update: 11/15/2019 by Matthew Piccoli
   Author: Matthew Piccoli
 */
 
