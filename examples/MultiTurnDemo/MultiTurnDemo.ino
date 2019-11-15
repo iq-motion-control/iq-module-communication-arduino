@@ -27,6 +27,8 @@ const float kTime = 5;
 // END USER SETABLE VALUES-----------------------------------------------------
 
 // Make an IqSerial object using Serial0 (same as Serial)
+// Every board is different.  Ensure the Serial number you are using is correct
+// and of the HardwareSerial class.
 IqSerial ser(Serial);
 // Make a MultiTurnAngleControlClient to interface with a motor module (ID 0)
 MultiTurnAngleControlClient angle(0);
