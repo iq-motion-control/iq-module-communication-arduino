@@ -12,12 +12,12 @@
  *  http://iq-control.com/documentation
  *    
  *  Created       2019/3/6 by Matthew Piccoli
- *  Last updated  2019/3/6 by Matthew Piccoli
+ *  Last updated  2019/11/5 by Matthew Piccoli
  *  
  *  This example code is in the public domain.
  */
 
-#include <iq_module_communicaiton.hpp>
+#include <iq_module_communication.hpp>
 
  // USER SETABLE VALUES HERE---------------------------------------------------
 // Sets the maximum speed (in rad/s)
