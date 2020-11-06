@@ -1,4 +1,5 @@
-![Release Version](release_badge.svg)
+![tag](https://img.shields.io/github/v/tag/iq-motion-control/iq-module-communication-arduino)
+![release](https://img.shields.io/github/release/iq-motion-control/iq-module-communication-arduino/all.svg)
 
 # Arduino API
 
