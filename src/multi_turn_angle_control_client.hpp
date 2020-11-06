@@ -60,12 +60,14 @@ class MultiTurnAngleControlClient: public ClientAbstract{
       trajectory_duration_(             kTypeAngleMotorControl, obj_idn, kSubTrajectoryDuration),
       trajectory_linear_displacement_(  kTypeAngleMotorControl, obj_idn, kSubTrajectoryLinearDisplacement),
       trajectory_linear_velocity_(      kTypeAngleMotorControl, obj_idn, kSubTrajectoryLinearVelocity),
-      trajectory_linear_acceleration_(  kTypeAngleMotorControl, obj_idn, kSubTrajectoryLinearAcceleration)
+      trajectory_linear_acceleration_(  kTypeAngleMotorControl, obj_idn, kSubTrajectoryLinearAcceleration),
+      trajectory_average_speed_(        kTypeAngleMotorControl, obj_idn, kSubTrajectoryAverageSpeed),
+      trajectory_queue_mode_(           kTypeAngleMotorControl, obj_idn, kSubTrajectoryQueueMode)
       {};
 
     // Client Entries
     // Control commands
-    ClientEntry<uint8_t>    ctrl_mode_;
+    ClientEntry<int8_t>     ctrl_mode_;
     ClientEntryVoid         ctrl_brake_;
     ClientEntryVoid         ctrl_coast_;
     ClientEntry<float>      ctrl_pwm_;
@@ -97,10 +99,13 @@ class MultiTurnAngleControlClient: public ClientAbstract{
     ClientEntry<float>      trajectory_linear_displacement_;
     ClientEntry<float>      trajectory_linear_velocity_;
     ClientEntry<float>      trajectory_linear_acceleration_;
+    ClientEntry<float>      trajectory_average_speed_;
+    ClientEntry<int8_t>     trajectory_queue_mode_;
+
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
-      static const uint8_t kEntryLength = kSubTrajectoryLinearAcceleration+1;
+      static const uint8_t kEntryLength = kSubTrajectoryQueueMode+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
         &ctrl_mode_,                        // 0
         &ctrl_brake_,                       // 1
@@ -127,7 +132,9 @@ class MultiTurnAngleControlClient: public ClientAbstract{
         &trajectory_duration_,              // 22
         &trajectory_linear_displacement_,   // 23
         &trajectory_linear_velocity_,       // 24
-        &trajectory_linear_acceleration_    // 25
+        &trajectory_linear_acceleration_,   // 25
+        &trajectory_average_speed_,         // 26
+        &trajectory_queue_mode_             // 27
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -160,6 +167,8 @@ class MultiTurnAngleControlClient: public ClientAbstract{
     static const uint8_t kSubTrajectoryLinearDisplacement     = 23;
     static const uint8_t kSubTrajectoryLinearVelocity         = 24;
     static const uint8_t kSubTrajectoryLinearAcceleration     = 25;
+    static const uint8_t kSubTrajectoryAverageSpeed           = 26;
+    static const uint8_t kSubTrajectoryQueueMode              = 27;
 };
 
 

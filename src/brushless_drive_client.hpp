@@ -64,9 +64,7 @@ class BrushlessDriveClient: public ClientAbstract{
       motor_redline_start_( kTypeBrushlessDrive, obj_idn, kSubMotorRedlineStart),
       motor_redline_end_(   kTypeBrushlessDrive, obj_idn, kSubMotorRedlineEnd),
       motor_l_(              kTypeBrushlessDrive, obj_idn, kSubMotorL),
-      derate_(              kTypeBrushlessDrive, obj_idn, kSubDerate),
-      i_soft_start(         kTypeBrushlessDrive, obj_idn, kSubISoftStart),
-      i_soft_end(           kTypeBrushlessDrive, obj_idn, kSubISoftEnd)      
+      derate_(              kTypeBrushlessDrive, obj_idn, kSubDerate)    
       {};
 
     // Client Entries
@@ -108,14 +106,12 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      motor_redline_end_;
     ClientEntry<float>      motor_l_;
     ClientEntry<int32_t>    derate_;
-    ClientEntry<float>      i_soft_start;
-    ClientEntry<float>      i_soft_end;
 
 
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
-      static const uint8_t kEntryLength = kSubISoftEnd+1;
+      static const uint8_t kEntryLength = kSubDerate+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
         &drive_mode_,           // 0
         &drive_phase_pwm_,      // 1
@@ -158,9 +154,7 @@ class BrushlessDriveClient: public ClientAbstract{
         &motor_redline_start_,  // 38
         &motor_redline_end_,    // 39
         &motor_l_,              // 40
-        &derate_,               // 41
-        &i_soft_start,          // 42
-        &i_soft_end             // 43
+        &derate_                // 41
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -198,8 +192,6 @@ class BrushlessDriveClient: public ClientAbstract{
     static const uint8_t kSubMotorRedlineEnd  = 39;
     static const uint8_t kSubMotorL           = 40;
     static const uint8_t kSubDerate           = 41;
-    static const uint8_t kSubISoftStart       = 42;
-    static const uint8_t kSubISoftEnd         = 43;
 };
 
 #endif /* BRUSHLESS_DRIVE_CLIENT_HPP_ */
