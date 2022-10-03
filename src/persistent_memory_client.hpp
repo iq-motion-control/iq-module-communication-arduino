@@ -3,25 +3,14 @@
 
   This file is part of the IQ C++ API.
 
-  IQ C++ API is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  IQ C++ API is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  This code is licensed under the MIT license (see LICENSE or https://opensource.org/licenses/MIT for details)
 */
 
 /*
   Name: persistent_memory_client.hpp
-  Last update: 4/12/2019 by Matthew Piccoli
+  Last update: 9/19/2022 by Ben Quan 
   Author: Matthew Piccoli
-  Contributors: Raphael Van Hoffelen
+  Contributors: Ben Quan, Raphael Van Hoffelen
 */
 
 #ifndef PERSISTENT_MEMORY_CLIENT_HPP_
@@ -31,34 +20,42 @@
 
 const uint8_t kTypePersistentMemory  =   11;
 
-class PersistentMemoryClient: public ClientAbstract{
+class PowerMonitorClient: public ClientAbstract{
   public:
-    PersistentMemoryClient(uint8_t obj_idn):
+    PowerMonitorClient(uint8_t obj_idn):
       ClientAbstract(     kTypePersistentMemory, obj_idn),
       erase_(             kTypePersistentMemory, obj_idn, kSubErase),
-      revert_to_default_( kTypePersistentMemory, obj_idn, kSubRevertToDefault)
+      revert_to_default_( kTypePersistentMemory, obj_idn, kSubRevertToDefault),
+      format_key_1_(      kTypePersistentMemory, obj_idn, kSubFormatKey1),
+      format_key_2_(      kTypePersistentMemory, obj_idn, kSubFormatKey2)
       {};
 
     // Client Entries
     // Control commands
-    ClientEntryVoid   erase_;
-    ClientEntryVoid   revert_to_default_;
+    ClientEntryVoid       erase_;
+    ClientEntryVoid       revert_to_default_;
+    ClientEntry<uint32_t>  format_key_1_;
+    ClientEntry<uint32_t>  format_key_2_;
 
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
-      static const uint8_t kEntryLength = kSubRevertToDefault+1;
+      static const uint8_t kEntryLength = kSubFormatKey2+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
-        &erase_,            // 0
-        &revert_to_default_ // 1
+        &erase_,             // 0
+        &revert_to_default_, // 1
+        &format_key_1_,      // 2
+        &format_key_2_       // 3
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
     }
 
   private:
-    static const uint8_t kSubErase =            0;
-    static const uint8_t kSubRevertToDefault =  1;
+    static const uint8_t kSubErase            = 0;
+    static const uint8_t kSubRevertToDefault  = 1;
+    static const uint8_t kSubFormatKey1       = 2;
+    static const uint8_t kSubFormatKey2       = 3;
 };
 
 #endif /* PERSISTENT_MEMORY_CLIENT_HPP_ */
