@@ -3,25 +3,14 @@
 
   This file is part of the IQ C++ API.
 
-  IQ C++ API is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  IQ C++ API is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  GNU Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  This code is licensed under the MIT license (see LICENSE or https://opensource.org/licenses/MIT for details)
 */
 
 /*
   Name: power_monitor_client.hpp
-  Last update: 3/7/2019 by Raphael Van Hoffelen
+  Last update: 09/16/2022 by Ben Quan
   Author: Matthew Piccoli
-  Contributors: Raphael Van Hoffelen
+  Contributors: Ben Quan, Raphael Van Hoffelen
 */
 
 #ifndef POWER_MONITOR_CLIENT_HPP_
@@ -51,18 +40,18 @@ class PowerMonitorClient: public ClientAbstract{
 
     // Client Entries
     // Control commands
-    ClientEntry<float>    volts_;
-    ClientEntry<float>    amps_;
-    ClientEntry<float>    watts_;
-    ClientEntry<float>    joules_;
-    ClientEntryVoid       reset_joules_;
-    ClientEntry<uint32_t> filter_fs_;
-    ClientEntry<uint32_t> filter_fc_;
-    ClientEntry<uint16_t> volts_raw_;
-    ClientEntry<uint16_t> amps_raw_;
-    ClientEntry<float>    volts_gain_;
-    ClientEntry<float>    amps_gain_;
-    ClientEntry<float>    amps_bias_;
+    ClientEntry<float>      volts_;
+    ClientEntry<float>      amps_;
+    ClientEntry<float>      watts_;
+    ClientEntry<float>      joules_;
+    ClientEntryVoid         reset_joules_;
+    ClientEntry<uint32_t>   filter_fs_;
+    ClientEntry<uint32_t>   filter_fc_;
+    ClientEntry<uint16_t>   volts_raw_;
+    ClientEntry<uint16_t>   amps_raw_;
+    ClientEntry<float>      volts_gain_;
+    ClientEntry<float>      amps_gain_;
+    ClientEntry<float>      amps_bias_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
@@ -86,18 +75,18 @@ class PowerMonitorClient: public ClientAbstract{
     }
 
   private:
-    static const uint8_t kSubVolts =      0;
-    static const uint8_t kSubAmps =       1;
-    static const uint8_t kSubWatts =      2;
-    static const uint8_t kSubJoules =     3;
-    static const uint8_t kSubResetJoules =4;
-    static const uint8_t kSubFilterFs =   5;
-    static const uint8_t kSubFilterFc =   6;
-    static const uint8_t kSubVoltsRaw =   7;
-    static const uint8_t kSubAmpsRaw =    8;
-    static const uint8_t kSubVoltsGain =  9;
-    static const uint8_t kSubAmpsGain =   10;
-    static const uint8_t kSubAmpsBias =   11;
+    static const uint8_t kSubVolts        =  0;
+    static const uint8_t kSubAmps         =  1;
+    static const uint8_t kSubWatts        =  2;
+    static const uint8_t kSubJoules       =  3;
+    static const uint8_t kSubResetJoules  =  4;
+    static const uint8_t kSubFilterFs     =  5;
+    static const uint8_t kSubFilterFc     =  6;
+    static const uint8_t kSubVoltsRaw     =  7;
+    static const uint8_t kSubAmpsRaw      =  8;
+    static const uint8_t kSubVoltsGain    =  9;
+    static const uint8_t kSubAmpsGain     = 10;
+    static const uint8_t kSubAmpsBias     = 11;
 };
 
 #endif /* POWER_MONITOR_CLIENT_HPP_ */
