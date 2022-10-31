@@ -8,7 +8,7 @@
 
 /*
   Name: persistent_memory_client.hpp
-  Last update: 9/19/2022 by Ben Quan 
+  Last update: 10/31/2022 by Ben Quan 
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -20,9 +20,9 @@
 
 const uint8_t kTypePersistentMemory  =   11;
 
-class PowerMonitorClient: public ClientAbstract{
+class PersistentMemoryClient: public ClientAbstract{
   public:
-    PowerMonitorClient(uint8_t obj_idn):
+    PersistentMemoryClient(uint8_t obj_idn):
       ClientAbstract(     kTypePersistentMemory, obj_idn),
       erase_(             kTypePersistentMemory, obj_idn, kSubErase),
       revert_to_default_( kTypePersistentMemory, obj_idn, kSubRevertToDefault),
