@@ -68,7 +68,7 @@ class PowerMonitorClient: public ClientAbstract{
         &amps_raw_,     // 8
         &volts_gain_,   // 9
         &amps_gain_,    // 10
-        &amps_bias_     // 11
+        &amps_bias_    // 11
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
