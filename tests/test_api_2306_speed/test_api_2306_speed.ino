@@ -12,6 +12,7 @@ void setup() {
     float voltage   = 0.0;
     float amps      = 0.0;
     float t_coil    = 0.0;
+    uint32_t controlFlags = 0;
 
     // Set up serial port
     ser.begin(115200);
@@ -48,6 +49,13 @@ void setup() {
         Serial.print("t_coil: ");
         Serial.print(t_coil);
         Serial.println();
+    }
+    
+    // Get control flags
+    if (ser.get(sysctrl.control_flags_, controlFlags)) {
+      Serial.print("control flags: ");
+      Serial.print(controlFlags);
+      Serial.println();  
     }
 }
 
