@@ -84,4 +84,4 @@ class AnticoggingProClient: public ClientAbstract{
     static const uint8_t kSubMaxHarmonics  = 10;
 };
 
-#endif // ANTICOGGING_CLIENT_H
+#endif // ANTICOGGING_PRO_CLIENT_H
