@@ -8,12 +8,13 @@
 
 /*
   Name: iq_module_communication.hpp
-  Last update: 2023/04/24 by Ben Quan
+  Last update: 2023/07/14 by Fred Kummer
   Author: Ben Quan, Matthew Piccoli
 */
 
 #include "adc_interface_client.hpp"
 #include "anticogging_client.hpp"
+#include "anticogging_pro_client.hpp"
 #include "arming_handler_client.hpp"
 #include "brushless_drive_client.hpp"
 #include "buzzer_control_client.hpp"
@@ -23,6 +24,7 @@
 #include "hobby_input_client.hpp"
 #include "iq_serial.hpp"
 #include "iquart_flight_controller_interface_client.hpp"
+#include "mag_alpha_client.hpp"
 #include "multi_turn_angle_control_client.hpp"
 #include "persistent_memory_client.hpp"
 #include "power_monitor_client.hpp"
