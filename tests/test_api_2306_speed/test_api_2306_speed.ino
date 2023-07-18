@@ -5,6 +5,8 @@ PowerMonitorClient power(0);
 SystemControlClient sysctrl(0);
 BrushlessDriveClient bdrive(0);
 CoilTemperatureEstimatorClient coilTemperatureEstimator(0);
+AnticoggingProClient anticog_pro(0);
+MagAlphaClient mag_alpha(0);
 
 void setup() {
     // put your setup code here, to run once:
@@ -13,6 +15,8 @@ void setup() {
     float amps      = 0.0;
     float t_coil    = 0.0;
     uint32_t controlFlags = 0;
+    uint8_t num_harmonics = 0;
+    float angle_rad = 0.0;
 
     // Set up serial port
     ser.begin(115200);
@@ -57,6 +61,20 @@ void setup() {
       Serial.print(controlFlags);
       Serial.println();  
     }
+
+    //Get num harmonics
+    if (ser.get(anticog_pro.num_harmonics_, num_harmonics )) {
+      Serial.print("num harmonics : ");
+      Serial.print(num_harmonics );
+      Serial.println(); 
+    }
+
+    //Get angle
+    if (ser.get(mag_alpha.angle_rad_, angle_rad )) {
+      Serial.print("angle rad : ");
+      Serial.print(angle_rad );
+      Serial.println(); 
+    }
 }
 
 void loop() {
@@ -69,4 +87,5 @@ void loop() {
     ser.set(bdrive.drive_coast_);
 
     delay(5000);
+
 }
