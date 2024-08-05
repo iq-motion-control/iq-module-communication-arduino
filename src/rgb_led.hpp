@@ -37,7 +37,7 @@ class RgbLedClient : public ClientAbstract {
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
         static const uint8_t kEntryLength              = kSubStrobePattern + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
-            &red_,              // 0
+			red_,              // 0
 			&green_,            // 1
 			&blue_,             // 2
 			&update_color_,     // 3
