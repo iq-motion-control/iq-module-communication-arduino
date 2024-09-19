@@ -7,6 +7,7 @@ BrushlessDriveClient bdrive(0);
 CoilTemperatureEstimatorClient coilTemperatureEstimator(0);
 AnticoggingProClient anticog_pro(0);
 MagAlphaClient mag_alpha(0);
+StowUserInterfaceClient stowUserInterface(0);
 
 void setup() {
     // put your setup code here, to run once:
@@ -83,9 +84,13 @@ void loop() {
     ser.set(bdrive.drive_spin_volts_, volts);
 
     delay(5000);
-
     ser.set(bdrive.drive_coast_);
 
-    delay(5000);
+    delay(1000);
+
+    ser.set(stowUserInterface.stow_);
+
+    delay(1000);
+
 
 }

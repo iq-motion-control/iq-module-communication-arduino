@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 IQinetics Technologies, Inc support@iq-control.com
+  Copyright 2023 Vertiq support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: brushless_drive_client.hpp
-  Last update: 09/16/2022 by Ben Quan
+  Last update: 08/14/2023 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -52,6 +52,7 @@ class BrushlessDriveClient: public ClientAbstract{
       angle_adjust_max_(                kTypeBrushlessDrive, obj_idn, kSubAngleAdjustMax),   
       angle_adjust_kp_(                 kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKp),    
       angle_adjust_ki_(                 kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKi),    
+      v_max_start_(                     kTypeBrushlessDrive, obj_idn, kSubVMaxStart),    
       motor_Kv_(                        kTypeBrushlessDrive, obj_idn, kSubMotorKv),
       motor_R_ohm_(                     kTypeBrushlessDrive, obj_idn, kSubMotorROhm),
       motor_I_max_(                     kTypeBrushlessDrive, obj_idn, kSubMotorIMax),
@@ -112,6 +113,7 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      angle_adjust_max_;    
     ClientEntry<float>      angle_adjust_kp_;     
     ClientEntry<float>      angle_adjust_ki_;        
+    ClientEntry<float>      v_max_start_;        
     ClientEntry<float>      motor_Kv_;
     ClientEntry<float>      motor_R_ohm_;
     ClientEntry<float>      motor_I_max_;
@@ -176,7 +178,7 @@ class BrushlessDriveClient: public ClientAbstract{
         &angle_adjust_kp_,                  // 26
         &angle_adjust_ki_,                  // 27
         nullptr,                            // 28
-        nullptr,                            // 29
+        &v_max_start_,                      // 29
         nullptr,                            // 30
         nullptr,                            // 31
         &motor_Kv_,                         // 32
@@ -242,6 +244,7 @@ class BrushlessDriveClient: public ClientAbstract{
     static const uint8_t kSubAngleAdjustMax             = 25;
     static const uint8_t kSubAngleAdjustKp              = 26;
     static const uint8_t kSubAngleAdjustKi              = 27;
+    static const uint8_t kSubVMaxStart                  = 29;
     static const uint8_t kSubMotorKv                    = 32;
     static const uint8_t kSubMotorROhm                  = 33;
     static const uint8_t kSubMotorIMax                  = 34;

@@ -1,5 +1,5 @@
 /*
-  Copyright 2024 IQinetics Technologies, Inc support@vertiq.co
+  Copyright 2024 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
