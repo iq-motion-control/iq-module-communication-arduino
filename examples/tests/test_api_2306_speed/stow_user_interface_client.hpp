@@ -1,5 +1,5 @@
 /*
-  Copyright 2024 IQinetics Technologies, Inc support@vertiq.co
+  Copyright 2024 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: stow_user_interface_client.hpp
-  Last update: 2024/09/18 by Ben Quan
+  Last update: 2024/09/19 by Ben Quan
   Author: Ben Quan
   Contributors:
 */

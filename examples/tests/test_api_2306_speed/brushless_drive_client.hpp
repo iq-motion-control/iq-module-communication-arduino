@@ -1,5 +1,5 @@
 /*
-  Copyright 2023 Vertiq support@vertiq.co
+  Copyright 2024 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: brushless_drive_client.hpp
-  Last update: 08/14/2023 by Ben Quan
+  Last update: 2024/09/19 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -81,7 +81,9 @@ class BrushlessDriveClient: public ClientAbstract{
       regen_limit_max_(                 kTypeBrushlessDrive, obj_idn, kSubRegenLimitMax),             
       motoring_limit_kp_(               kTypeBrushlessDrive, obj_idn, kSubMotoringLimitKp),
       motoring_limit_ki_(               kTypeBrushlessDrive, obj_idn, kSubMotoringLimitKi),
-      motoring_limit_max_(              kTypeBrushlessDrive, obj_idn, kSubMotoringLimitMax)
+      motoring_limit_max_(              kTypeBrushlessDrive, obj_idn, kSubMotoringLimitMax),
+      derate_low_pass_filter_fc_(       kTypeBrushlessDrive, obj_idn, kSubDerateLowPassFilterFc),
+      derate_low_pass_filter_fs_(       kTypeBrushlessDrive, obj_idn, kSubDerateLowPassFilterFs)
       {};
 
     // Client Entries
@@ -143,11 +145,13 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      motoring_limit_kp_;
     ClientEntry<float>      motoring_limit_ki_;
     ClientEntry<float>      motoring_limit_max_;
+    ClientEntry<uint32_t>   derate_low_pass_filter_fc_;
+    ClientEntry<uint32_t>   derate_low_pass_filter_fs_;
 
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
-      static const uint8_t kEntryLength = kSubMotoringLimitMax+1;
+      static const uint8_t kEntryLength = kSubDerateLowPassFilterFs+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
         &drive_mode_,                       // 0
         &drive_phase_pwm_,                  // 1
@@ -209,7 +213,9 @@ class BrushlessDriveClient: public ClientAbstract{
         &regen_limit_max_,                  // 57
         &motoring_limit_kp_,                // 58
         &motoring_limit_ki_,                // 59
-        &motoring_limit_max_                // 60
+        &motoring_limit_max_,               // 60
+        &derate_low_pass_filter_fc_,        // 61
+        &derate_low_pass_filter_fs_         // 62
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -274,6 +280,8 @@ class BrushlessDriveClient: public ClientAbstract{
     static const uint8_t kSubMotoringLimitKp            = 58;
     static const uint8_t kSubMotoringLimitKi            = 59;
     static const uint8_t kSubMotoringLimitMax           = 60;
+    static const uint8_t kSubDerateLowPassFilterFc      = 61;
+    static const uint8_t kSubDerateLowPassFilterFs      = 62;
 };
 
 #endif /* BRUSHLESS_DRIVE_CLIENT_HPP_ */
