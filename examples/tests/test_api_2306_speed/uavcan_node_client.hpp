@@ -70,7 +70,7 @@ class UavcanNodeClient : public ClientAbstract {
             &telemetry_frequency_,     // 9
             &bit_rate_,                // 10
             &bypass_arming_,           // 11
-            &arming_by_arming_status_, // 12
+            &arming_by_arming_status_  // 12
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
