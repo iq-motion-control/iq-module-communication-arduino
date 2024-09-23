@@ -1,6 +1,6 @@
 
 /*
-  Copyright 2019 IQinetics Technologies, Inc support@iq-control.com
+  Copyright 2024 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -9,7 +9,7 @@
 
 /*
   Name: uavcan_node_client.hpp
-  Last update: 2023/04/11 by Ben Quan
+  Last update: 2024/09/19 by Ben Quan
   Author: Ben Quan
   Contributors:
 */
@@ -36,7 +36,9 @@ class UavcanNodeClient : public ClientAbstract {
           error_warning_flag_(kTypeUavcanNode, obj_idn, kSubErrorWarningFlag),
           telemetry_frequency_(kTypeUavcanNode, obj_idn, kSubTelemetryFrequency),
           bit_rate_(kTypeUavcanNode, obj_idn, kSubBitRate),
-          bypass_arming_(kTypeUavcanNode, obj_idn, kSubBypassArming){};
+          bypass_arming_(kTypeUavcanNode, obj_idn, kSubBypassArming),
+          arming_by_arming_status_(kTypeUavcanNode, obj_idn, kSubArmingByArmingStatus)
+          {};
 
     // Client Entries
     ClientEntry<uint32_t> uavcan_node_id_;
@@ -51,9 +53,10 @@ class UavcanNodeClient : public ClientAbstract {
     ClientEntry<uint32_t> telemetry_frequency_;
     ClientEntry<uint32_t> bit_rate_;
     ClientEntry<uint8_t> bypass_arming_;
+    ClientEntry<uint8_t> arming_by_arming_status_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubBypassArming + 1;
+        static const uint8_t kEntryLength              = kSubArmingByArmingStatus + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
             &uavcan_node_id_,          // 0
             &uavcan_esc_index_,        // 1
@@ -66,7 +69,8 @@ class UavcanNodeClient : public ClientAbstract {
             &error_warning_flag_,      // 8
             &telemetry_frequency_,     // 9
             &bit_rate_,                // 10
-            &bypass_arming_            // 11
+            &bypass_arming_,           // 11
+            &arming_by_arming_status_  // 12
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -85,6 +89,7 @@ class UavcanNodeClient : public ClientAbstract {
     static const uint8_t kSubTelemetryFrequency   = 9;
     static const uint8_t kSubBitRate              = 10;
     static const uint8_t kSubBypassArming         = 11;
+    static const uint8_t kSubArmingByArmingStatus = 12;
 };
 
 #endif /* UAVCAN_NODE_CLIENT_HPP_ */

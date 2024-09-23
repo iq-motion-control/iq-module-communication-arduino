@@ -8,7 +8,7 @@
 
 /*
   Name: multi_turn_angle_control_client.hpp
-  Last update: 2023/04/19 by Ben Quan
+  Last update: 2024/08/26 by Fred Kummer
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -56,7 +56,8 @@ class MultiTurnAngleControlClient : public ClientAbstract {
           trajectory_queue_mode_(kTypeAngleMotorControl, obj_idn, kSubTrajectoryQueueMode),
           ff_(kTypeAngleMotorControl, obj_idn, kSubFF),
           sample_zero_angle_(kTypeAngleMotorControl, obj_idn, kSubSampleZeroAngle),
-          zero_angle_(kTypeAngleMotorControl, obj_idn, kSubZeroAngle){};
+          zero_angle_(kTypeAngleMotorControl, obj_idn, kSubZeroAngle),
+          additional_velocity_(kTypeAngleMotorControl, obj_idn, kSubAdditionalVelocity){};
 
     // Client Entries
     // Control commands
@@ -97,9 +98,11 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     ClientEntry<int32_t> ff_;
     ClientEntryVoid sample_zero_angle_;
     ClientEntry<float> zero_angle_;
+    //Additional Velocity
+    ClientEntry<float> additional_velocity_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubZeroAngle + 1;
+        static const uint8_t kEntryLength              = kSubAdditionalVelocity + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
             &ctrl_mode_,                        // 0
             &ctrl_brake_,                       // 1
@@ -132,7 +135,8 @@ class MultiTurnAngleControlClient : public ClientAbstract {
             nullptr,                            // 28
             &ff_,                               // 29
             &sample_zero_angle_,                // 30
-            &zero_angle_                        // 31
+            &zero_angle_,                       // 31
+            &additional_velocity_               // 32
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -170,6 +174,7 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     static const uint8_t kSubFF                            = 29;
     static const uint8_t kSubSampleZeroAngle               = 30;
     static const uint8_t kSubZeroAngle                     = 31;
+    static const uint8_t kSubAdditionalVelocity            = 32;
 };
 
 #endif /* MULTI_TURN_ANGLE_CONTROL_CLIENT_HPP_ */

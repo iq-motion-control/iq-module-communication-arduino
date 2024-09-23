@@ -8,7 +8,7 @@
 
 /*
   Name: mag_alpha_client.hpp
-  Last update: 2023/07/14 by Ben Quan 
+  Last update: 2023/06/29 by Ben Quan 
   Author: Ben Quan 
   Contributors: 
 */

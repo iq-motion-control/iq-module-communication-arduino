@@ -1,5 +1,5 @@
 /*
-  Copyright 2023 IQinetics Technologies, Inc support@iq-control.com
+  Copyright 2024 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: stow_user_interface_client.hpp
-  Last update: 2023/04/12 by Ben Quan
+  Last update: 2024/09/19 by Ben Quan
   Author: Ben Quan
   Contributors:
 */
@@ -28,7 +28,7 @@ class StowUserInterfaceClient : public ClientAbstract {
           target_angle_(kTypeStowUserInterface, obj_idn, kSubTargetAngle),
           target_acceleration_(kTypeStowUserInterface, obj_idn, kSubTargetAcceleration),
           sample_zero_(kTypeStowUserInterface, obj_idn, kSubSampleZero),
-          user_stow_request_(kTypeStowUserInterface, obj_idn, kSubUserStowRequest),
+          stow_(kTypeStowUserInterface, obj_idn, kSubStow),
           stow_kp_(kTypeStowUserInterface, obj_idn, kSubStowKp),
           stow_ki_(kTypeStowUserInterface, obj_idn, kSubStowKi),
           stow_kd_(kTypeStowUserInterface, obj_idn, kSubStowKd),
@@ -41,7 +41,7 @@ class StowUserInterfaceClient : public ClientAbstract {
     ClientEntry<float> target_angle_;
     ClientEntry<float> target_acceleration_;
     ClientEntryVoid sample_zero_;
-    ClientEntryVoid user_stow_request_;
+    ClientEntryVoid stow_;
     ClientEntry<float> stow_kp_;
     ClientEntry<float> stow_ki_;
     ClientEntry<float> stow_kd_;
@@ -56,7 +56,7 @@ class StowUserInterfaceClient : public ClientAbstract {
             &target_angle_,         // 1
             &target_acceleration_,  // 2
             &sample_zero_,          // 3
-            &user_stow_request_,    // 4
+            &stow_,                 // 4
             &stow_kp_,              // 5
             &stow_ki_,              // 6
             &stow_kd_,              // 7
@@ -72,7 +72,7 @@ class StowUserInterfaceClient : public ClientAbstract {
     static const uint8_t kSubTargetAngle        = 1;
     static const uint8_t kSubTargetAcceleration = 2;
     static const uint8_t kSubSampleZero         = 3;
-    static const uint8_t kSubUserStowRequest    = 4;
+    static const uint8_t kSubStow               = 4;
     static const uint8_t kSubStowKp             = 5;
     static const uint8_t kSubStowKi             = 6;
     static const uint8_t kSubStowKd             = 7;
