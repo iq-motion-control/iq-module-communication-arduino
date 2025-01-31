@@ -9,7 +9,7 @@
 
 /*
   Name: uavcan_node_client.hpp
-  Last update: 2024/09/19 by Ben Quan
+  Last update: 2025/01/31 by Ben Quan
   Author: Ben Quan
   Contributors:
 */
@@ -37,7 +37,8 @@ class UavcanNodeClient : public ClientAbstract {
           telemetry_frequency_(kTypeUavcanNode, obj_idn, kSubTelemetryFrequency),
           bit_rate_(kTypeUavcanNode, obj_idn, kSubBitRate),
           bypass_arming_(kTypeUavcanNode, obj_idn, kSubBypassArming),
-          arming_by_arming_status_(kTypeUavcanNode, obj_idn, kSubArmingByArmingStatus)
+          arming_by_arming_status_(kTypeUavcanNode, obj_idn, kSubArmingByArmingStatus),
+          telemetry_style_(kTypeUavcanNode, obj_idn, kSubTelemetryStyle)
           {};
 
     // Client Entries
@@ -54,9 +55,10 @@ class UavcanNodeClient : public ClientAbstract {
     ClientEntry<uint32_t> bit_rate_;
     ClientEntry<uint8_t> bypass_arming_;
     ClientEntry<uint8_t> arming_by_arming_status_;
+    ClientEntry<uint8_t> telemetry_style_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubArmingByArmingStatus + 1;
+        static const uint8_t kEntryLength              = kSubTelemetryStyle + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
             &uavcan_node_id_,          // 0
             &uavcan_esc_index_,        // 1
@@ -70,7 +72,8 @@ class UavcanNodeClient : public ClientAbstract {
             &telemetry_frequency_,     // 9
             &bit_rate_,                // 10
             &bypass_arming_,           // 11
-            &arming_by_arming_status_  // 12
+            &arming_by_arming_status_, // 12
+            &telemetry_style_          // 13
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -90,6 +93,7 @@ class UavcanNodeClient : public ClientAbstract {
     static const uint8_t kSubBitRate              = 10;
     static const uint8_t kSubBypassArming         = 11;
     static const uint8_t kSubArmingByArmingStatus = 12;
+    static const uint8_t kSubTelemetryStyle       = 13; 
 };
 
 #endif /* UAVCAN_NODE_CLIENT_HPP_ */
