@@ -1,5 +1,5 @@
 /*
-  Copyright 2024 Vertiq, Inc support@vertiq.co
+  Copyright 2025 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: esc_propeller_input_parser_client.hpp
-  Last update: 2025/03/07 by Ben Quan
+  Last update: 2025/03/12 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
