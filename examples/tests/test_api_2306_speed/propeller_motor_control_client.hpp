@@ -8,7 +8,7 @@
 
 /*
   Name: propeller_motor_control_client.hpp
-  Last update: 2023/04/11 by Ben Quan
+  Last update: 2024/08/26 by Fred Kummer
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -43,7 +43,8 @@ class PropellerMotorControlClient : public ClientAbstract {
           input_filter_fc_(kTypePropellerMotorControl, obj_idn, kSubInputFilterFc),
           timeout_meaning_(kTypePropellerMotorControl, obj_idn, kSubTimeoutMeaning),
           timeout_behavior_(kTypePropellerMotorControl, obj_idn, kSubTimeoutBehavior),
-          timeout_song_option_(kTypePropellerMotorControl, obj_idn, kSubTimeoutSongOption){};
+          timeout_song_option_(kTypePropellerMotorControl, obj_idn, kSubTimeoutSongOption),
+          additional_velocity_(kTypePropellerMotorControl, obj_idn, kSubAdditionalVelocity){};
 
     // Client Entries
     // Control commands
@@ -71,9 +72,11 @@ class PropellerMotorControlClient : public ClientAbstract {
     ClientEntry<uint8_t> timeout_meaning_;
     ClientEntry<uint8_t> timeout_behavior_;
     ClientEntry<uint8_t> timeout_song_option_;
+    //Additional Velocity
+    ClientEntry<float> additional_velocity_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubTimeoutSongOption + 1;
+        static const uint8_t kEntryLength              = kSubAdditionalVelocity + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
             &ctrl_mode_,           // 0
             &ctrl_brake_,          // 1
@@ -94,33 +97,35 @@ class PropellerMotorControlClient : public ClientAbstract {
             &input_filter_fc_,     // 16
             &timeout_meaning_,     // 17
             &timeout_behavior_,    // 18
-            &timeout_song_option_  // 19
+            &timeout_song_option_, // 19
+            &additional_velocity_  // 20
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
     }
 
    private:
-    static const uint8_t kSubCtrlMode          = 0;
-    static const uint8_t kSubCtrlBrake         = 1;
-    static const uint8_t kSubCtrlCoast         = 2;
-    static const uint8_t kSubCtrlPwm           = 3;
-    static const uint8_t kSubCtrlVolts         = 4;
-    static const uint8_t kSubCtrlVelocity      = 5;
-    static const uint8_t kSubCtrlThrust        = 6;
-    static const uint8_t kSubVelocityKp        = 7;
-    static const uint8_t kSubVelocityKi        = 8;
-    static const uint8_t kSubVelocityKd        = 9;
-    static const uint8_t kSubVelocityFF0       = 10;
-    static const uint8_t kSubVelocityFF1       = 11;
-    static const uint8_t kSubVelocityFF2       = 12;
-    static const uint8_t kSubPropellerKtPos    = 13;
-    static const uint8_t kSubPropellerKtNeg    = 14;
-    static const uint8_t kSubTimeout           = 15;
-    static const uint8_t kSubInputFilterFc     = 16;
-    static const uint8_t kSubTimeoutMeaning    = 17;
-    static const uint8_t kSubTimeoutBehavior   = 18;
-    static const uint8_t kSubTimeoutSongOption = 19;
+    static const uint8_t kSubCtrlMode           = 0;
+    static const uint8_t kSubCtrlBrake          = 1;
+    static const uint8_t kSubCtrlCoast          = 2;
+    static const uint8_t kSubCtrlPwm            = 3;
+    static const uint8_t kSubCtrlVolts          = 4;
+    static const uint8_t kSubCtrlVelocity       = 5;
+    static const uint8_t kSubCtrlThrust         = 6;
+    static const uint8_t kSubVelocityKp         = 7;
+    static const uint8_t kSubVelocityKi         = 8;
+    static const uint8_t kSubVelocityKd         = 9;
+    static const uint8_t kSubVelocityFF0        = 10;
+    static const uint8_t kSubVelocityFF1        = 11;
+    static const uint8_t kSubVelocityFF2        = 12;
+    static const uint8_t kSubPropellerKtPos     = 13;
+    static const uint8_t kSubPropellerKtNeg     = 14;
+    static const uint8_t kSubTimeout            = 15;
+    static const uint8_t kSubInputFilterFc      = 16;
+    static const uint8_t kSubTimeoutMeaning     = 17;
+    static const uint8_t kSubTimeoutBehavior    = 18;
+    static const uint8_t kSubTimeoutSongOption  = 19;
+    static const uint8_t kSubAdditionalVelocity = 20;
 };
 
 #endif /* PROPELLER_MOTOR_CONTROL_CLIENT_HPP_ */

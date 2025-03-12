@@ -40,5 +40,6 @@
 #include "system_control_client.hpp"
 #include "temperature_estimator_client.hpp"
 #include "temperature_monitor_uc_client.hpp"
+#include "throttle_source_manager_client.hpp"
 #include "uavcan_node_client.hpp"
 #include "voltage_superposition_client.hpp"
