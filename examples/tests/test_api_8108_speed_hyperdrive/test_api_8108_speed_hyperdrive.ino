@@ -24,6 +24,14 @@ void setup() {
     float volts_cascaded = 0.0;
     uint32_t volts_cascaded_filter_fc = 0;
 
+    // hyperdrive values
+    float final_max_current_derate = 0.0;
+    float voltage_target = 0.0;
+    float rotor_magnitude = 0.0;
+    float mechanical_inductance = 0.0;
+    float rotor_angle = 0.0;
+    float q_current = 0.0;
+
     // Set up serial port
     ser.begin(115200);
     Serial.begin(115200);  // This is used to print to the Serial Monitor
@@ -80,6 +88,46 @@ void setup() {
       Serial.print(volts_cascaded_filter_fc);
       Serial.println(); 
     }
+
+    Serial.println("Now testing hyperdrive clients");
+
+    if (ser.get(currentSafeties.final_max_current_derate_, final_max_current_derate)){
+      Serial.print("final max current derate: ");
+      Serial.print(final_max_current_derate);
+      Serial.println(); 
+    }
+
+    if (ser.get(driveControlInterface.voltage_target_, voltage_target)){
+      Serial.print("voltage target: ");
+      Serial.print(voltage_target);
+      Serial.println(); 
+    }
+
+    if (ser.get(motorDriver.rotor_magnitude_, rotor_magnitude)){
+      Serial.print("rotor magnitude: ");
+      Serial.print(rotor_magnitude);
+      Serial.println(); 
+    }
+
+    if (ser.get(motorModel.mechanical_inductance_, mechanical_inductance)){
+      Serial.print("mechanical inductance: ");
+      Serial.print(mechanical_inductance);
+      Serial.println(); 
+    }
+
+    if (ser.get(rotorAngleGenerator.rotor_angle_, rotor_angle)){
+      Serial.print("rotor angle: ");
+      Serial.print(rotor_angle);
+      Serial.println(); 
+    }
+
+    if (ser.get(voltageTargetGenerator.q_current_, q_current)){
+      Serial.print("q current: ");
+      Serial.print(q_current);
+      Serial.println(); 
+    }
+
+
 }
 
 void loop() {
