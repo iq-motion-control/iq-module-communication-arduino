@@ -1,5 +1,5 @@
 /*
-  Copyright 2024 Vertiq, Inc support@vertiq.co
+  Copyright 2025 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: brushless_drive_client.hpp
-  Last update: 2024/09/19 by Ben Quan
+  Last update: 2025-08-26 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -53,6 +53,8 @@ class BrushlessDriveClient: public ClientAbstract{
       angle_adjust_kp_(                 kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKp),    
       angle_adjust_ki_(                 kTypeBrushlessDrive, obj_idn, kSubAngleAdjustKi),    
       v_max_start_(                     kTypeBrushlessDrive, obj_idn, kSubVMaxStart),    
+      scaling_commutation_cycles_per_erev_(kTypeBrushlessDrive, obj_idn, kSubScalingCommutationCyclesPerErev),
+      scaling_commutation_hz_floor_(kTypeBrushlessDrive, obj_idn, kSubScalingCommutationHzFloor),
       motor_Kv_(                        kTypeBrushlessDrive, obj_idn, kSubMotorKv),
       motor_R_ohm_(                     kTypeBrushlessDrive, obj_idn, kSubMotorROhm),
       motor_I_max_(                     kTypeBrushlessDrive, obj_idn, kSubMotorIMax),
@@ -73,9 +75,7 @@ class BrushlessDriveClient: public ClientAbstract{
       regen_supply_current_limit_(      kTypeBrushlessDrive, obj_idn, kSubRegenSupplyCurrentLimit),
       supply_current_limit_enable_(     kTypeBrushlessDrive, obj_idn, kSubSupplyCurrentLimitEnable),
       regen_limiting_(                  kTypeBrushlessDrive, obj_idn, kSubRegenLimiting),             
-      regen_limit_adjust_(              kTypeBrushlessDrive, obj_idn, kSubRegenLimitAdjust),          
       motoring_limiting_(               kTypeBrushlessDrive, obj_idn, kSubMotoringLimiting),          
-      motoring_limit_adjust_(           kTypeBrushlessDrive, obj_idn, kSubMotoringLimitAdjust),
       regen_limit_kp_(                  kTypeBrushlessDrive, obj_idn, kSubRegenLimitKp),
       regen_limit_ki_(                  kTypeBrushlessDrive, obj_idn, kSubRegenLimitKi),              
       regen_limit_max_(                 kTypeBrushlessDrive, obj_idn, kSubRegenLimitMax),             
@@ -83,7 +83,8 @@ class BrushlessDriveClient: public ClientAbstract{
       motoring_limit_ki_(               kTypeBrushlessDrive, obj_idn, kSubMotoringLimitKi),
       motoring_limit_max_(              kTypeBrushlessDrive, obj_idn, kSubMotoringLimitMax),
       derate_low_pass_filter_fc_(       kTypeBrushlessDrive, obj_idn, kSubDerateLowPassFilterFc),
-      derate_low_pass_filter_fs_(       kTypeBrushlessDrive, obj_idn, kSubDerateLowPassFilterFs)
+      derate_low_pass_filter_fs_(       kTypeBrushlessDrive, obj_idn, kSubDerateLowPassFilterFs),
+      scaling_commutation_hz_ceiling_(kTypeBrushlessDrive, obj_idn, kSubScalingCommutationHzCeiling)
       {};
 
     // Client Entries
@@ -116,6 +117,8 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      angle_adjust_kp_;     
     ClientEntry<float>      angle_adjust_ki_;        
     ClientEntry<float>      v_max_start_;        
+    ClientEntry<uint32_t>   scaling_commutation_cycles_per_erev_;
+    ClientEntry<uint32_t>   scaling_commutation_hz_floor_;
     ClientEntry<float>      motor_Kv_;
     ClientEntry<float>      motor_R_ohm_;
     ClientEntry<float>      motor_I_max_;
@@ -136,9 +139,7 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      regen_supply_current_limit_;
     ClientEntry<uint8_t>    supply_current_limit_enable_;
     ClientEntry<uint8_t>    regen_limiting_;
-    ClientEntry<float>      regen_limit_adjust_;
     ClientEntry<uint8_t>    motoring_limiting_;
-    ClientEntry<float>      motoring_limit_adjust_;
     ClientEntry<float>      regen_limit_kp_;
     ClientEntry<float>      regen_limit_ki_;
     ClientEntry<float>      regen_limit_max_;
@@ -147,11 +148,12 @@ class BrushlessDriveClient: public ClientAbstract{
     ClientEntry<float>      motoring_limit_max_;
     ClientEntry<uint32_t>   derate_low_pass_filter_fc_;
     ClientEntry<uint32_t>   derate_low_pass_filter_fs_;
+    ClientEntry<uint32_t>   scaling_commutation_hz_ceiling_;
 
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length)
     {
-      static const uint8_t kEntryLength = kSubDerateLowPassFilterFs+1;
+      static const uint8_t kEntryLength = kSubScalingCommutationHzCeiling+1;
       ClientEntryAbstract* entry_array[kEntryLength] = {
         &drive_mode_,                       // 0
         &drive_phase_pwm_,                  // 1
@@ -183,8 +185,8 @@ class BrushlessDriveClient: public ClientAbstract{
         &angle_adjust_ki_,                  // 27
         nullptr,                            // 28
         &v_max_start_,                      // 29
-        nullptr,                            // 30
-        nullptr,                            // 31
+        &scaling_commutation_cycles_per_erev_, // 30
+        &scaling_commutation_hz_floor_,     // 31
         &motor_Kv_,                         // 32
         &motor_R_ohm_,                      // 33
         &motor_I_max_,                      // 34
@@ -205,9 +207,9 @@ class BrushlessDriveClient: public ClientAbstract{
         &regen_supply_current_limit_,       // 49
         &supply_current_limit_enable_,      // 50
         &regen_limiting_,                   // 51
-        &regen_limit_adjust_,               // 52
+        nullptr,               // 52
         &motoring_limiting_,                // 53
-        &motoring_limit_adjust_,            // 54
+        nullptr,                            // 54
         &regen_limit_kp_,                   // 55
         &regen_limit_ki_,                   // 56
         &regen_limit_max_,                  // 57
@@ -215,7 +217,8 @@ class BrushlessDriveClient: public ClientAbstract{
         &motoring_limit_ki_,                // 59
         &motoring_limit_max_,               // 60
         &derate_low_pass_filter_fc_,        // 61
-        &derate_low_pass_filter_fs_         // 62
+        &derate_low_pass_filter_fs_,        // 62
+        &scaling_commutation_hz_ceiling_    // 63
       };
 
       ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -251,6 +254,8 @@ class BrushlessDriveClient: public ClientAbstract{
     static const uint8_t kSubAngleAdjustKp              = 26;
     static const uint8_t kSubAngleAdjustKi              = 27;
     static const uint8_t kSubVMaxStart                  = 29;
+    static const uint8_t kSubScalingCommutationCyclesPerErev = 30;
+    static const uint8_t kSubScalingCommutationHzFloor  = 31;
     static const uint8_t kSubMotorKv                    = 32;
     static const uint8_t kSubMotorROhm                  = 33;
     static const uint8_t kSubMotorIMax                  = 34;
@@ -271,9 +276,7 @@ class BrushlessDriveClient: public ClientAbstract{
     static const uint8_t kSubRegenSupplyCurrentLimit    = 49;
     static const uint8_t kSubSupplyCurrentLimitEnable   = 50;
     static const uint8_t kSubRegenLimiting              = 51;
-    static const uint8_t kSubRegenLimitAdjust           = 52;
     static const uint8_t kSubMotoringLimiting           = 53;
-    static const uint8_t kSubMotoringLimitAdjust        = 54;
     static const uint8_t kSubRegenLimitKp               = 55;
     static const uint8_t kSubRegenLimitKi               = 56;
     static const uint8_t kSubRegenLimitMax              = 57;
@@ -282,6 +285,7 @@ class BrushlessDriveClient: public ClientAbstract{
     static const uint8_t kSubMotoringLimitMax           = 60;
     static const uint8_t kSubDerateLowPassFilterFc      = 61;
     static const uint8_t kSubDerateLowPassFilterFs      = 62;
+    static const uint8_t kSubScalingCommutationHzCeiling = 63;
 };
 
 #endif /* BRUSHLESS_DRIVE_CLIENT_HPP_ */

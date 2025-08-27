@@ -1,5 +1,5 @@
 /*
-  Copyright 2025 Vertiq, Inc support@vertiq.co
+  Copyright 2024 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: esc_propeller_input_parser_client.hpp
-  Last update: 2025/03/12 by Ben Quan
+  Last update: 2025/03/07 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -29,7 +29,6 @@ class EscPropellerInputParserClient : public ClientAbstract {
           sign_(kTypeEscPropellerInputParser, obj_idn, kSubSign),
           volts_max_(kTypeEscPropellerInputParser, obj_idn, kSubVoltsMax),
           velocity_max_(kTypeEscPropellerInputParser, obj_idn, kSubVelocityMax),
-          thrust_max_(kTypeEscPropellerInputParser, obj_idn, kSubThrustMax),
           safe_factor_(kTypeEscPropellerInputParser, obj_idn, kSubSafeFactor),
           flip_negative_(kTypeEscPropellerInputParser, obj_idn, kSubFlipNegative),
           zero_spin_throttle_(kTypeEscPropellerInputParser, obj_idn, kSubZeroSpinThrottle),
@@ -43,7 +42,6 @@ class EscPropellerInputParserClient : public ClientAbstract {
     ClientEntry<uint8_t> sign_;
     ClientEntry<float> volts_max_;
     ClientEntry<float> velocity_max_;
-    ClientEntry<float> thrust_max_;
     ClientEntry<float> safe_factor_;
     ClientEntry<uint8_t> flip_negative_;
     ClientEntry<float> zero_spin_throttle_;
@@ -59,7 +57,7 @@ class EscPropellerInputParserClient : public ClientAbstract {
             &sign_,                       // 3
             &volts_max_,                  // 4
             &velocity_max_,               // 5
-            &thrust_max_,                 // 6
+            nullptr,                      // 6
             &safe_factor_,                // 7
             &flip_negative_,              // 8
             &zero_spin_throttle_,         // 9
@@ -76,7 +74,6 @@ class EscPropellerInputParserClient : public ClientAbstract {
     static const uint8_t kSubSign                   = 3;
     static const uint8_t kSubVoltsMax               = 4;
     static const uint8_t kSubVelocityMax            = 5;
-    static const uint8_t kSubThrustMax              = 6;
     static const uint8_t kSubSafeFactor             = 7;
     static const uint8_t kSubFlipNegative           = 8;
     static const uint8_t kSubZeroSpinThrottle       = 9;

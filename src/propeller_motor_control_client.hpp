@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 IQinetics Technologies, Inc support@iq-control.com
+  Copyright 2025 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: propeller_motor_control_client.hpp
-  Last update: 2024/08/26 by Fred Kummer
+  Last update: 2025-08-26 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -30,15 +30,12 @@ class PropellerMotorControlClient : public ClientAbstract {
           ctrl_pwm_(kTypePropellerMotorControl, obj_idn, kSubCtrlPwm),
           ctrl_volts_(kTypePropellerMotorControl, obj_idn, kSubCtrlVolts),
           ctrl_velocity_(kTypePropellerMotorControl, obj_idn, kSubCtrlVelocity),
-          ctrl_thrust_(kTypePropellerMotorControl, obj_idn, kSubCtrlThrust),
           velocity_kp_(kTypePropellerMotorControl, obj_idn, kSubVelocityKp),
           velocity_ki_(kTypePropellerMotorControl, obj_idn, kSubVelocityKi),
           velocity_kd_(kTypePropellerMotorControl, obj_idn, kSubVelocityKd),
           velocity_ff0_(kTypePropellerMotorControl, obj_idn, kSubVelocityFF0),
           velocity_ff1_(kTypePropellerMotorControl, obj_idn, kSubVelocityFF1),
           velocity_ff2_(kTypePropellerMotorControl, obj_idn, kSubVelocityFF2),
-          propeller_kt_pos_(kTypePropellerMotorControl, obj_idn, kSubPropellerKtPos),
-          propeller_kt_neg_(kTypePropellerMotorControl, obj_idn, kSubPropellerKtNeg),
           timeout_(kTypePropellerMotorControl, obj_idn, kSubTimeout),
           input_filter_fc_(kTypePropellerMotorControl, obj_idn, kSubInputFilterFc),
           timeout_meaning_(kTypePropellerMotorControl, obj_idn, kSubTimeoutMeaning),
@@ -54,7 +51,6 @@ class PropellerMotorControlClient : public ClientAbstract {
     ClientEntry<float> ctrl_pwm_;
     ClientEntry<float> ctrl_volts_;
     ClientEntry<float> ctrl_velocity_;
-    ClientEntry<float> ctrl_thrust_;
     // Velocity control
     ClientEntry<float> velocity_kp_;
     ClientEntry<float> velocity_ki_;
@@ -62,9 +58,6 @@ class PropellerMotorControlClient : public ClientAbstract {
     ClientEntry<float> velocity_ff0_;
     ClientEntry<float> velocity_ff1_;
     ClientEntry<float> velocity_ff2_;
-    // Propeller values
-    ClientEntry<float> propeller_kt_pos_;
-    ClientEntry<float> propeller_kt_neg_;
     // Timeout
     ClientEntry<float> timeout_;
     // Filter
@@ -84,15 +77,15 @@ class PropellerMotorControlClient : public ClientAbstract {
             &ctrl_pwm_,            // 3
             &ctrl_volts_,          // 4
             &ctrl_velocity_,       // 5
-            &ctrl_thrust_,         // 6
+            nullptr,               // 6
             &velocity_kp_,         // 7
             &velocity_ki_,         // 8
             &velocity_kd_,         // 9
             &velocity_ff0_,        // 10
             &velocity_ff1_,        // 11
             &velocity_ff2_,        // 12
-            &propeller_kt_pos_,    // 13
-            &propeller_kt_neg_,    // 14
+            nullptr,               // 13
+            nullptr,               // 14
             &timeout_,             // 15
             &input_filter_fc_,     // 16
             &timeout_meaning_,     // 17
@@ -111,15 +104,12 @@ class PropellerMotorControlClient : public ClientAbstract {
     static const uint8_t kSubCtrlPwm            = 3;
     static const uint8_t kSubCtrlVolts          = 4;
     static const uint8_t kSubCtrlVelocity       = 5;
-    static const uint8_t kSubCtrlThrust         = 6;
     static const uint8_t kSubVelocityKp         = 7;
     static const uint8_t kSubVelocityKi         = 8;
     static const uint8_t kSubVelocityKd         = 9;
     static const uint8_t kSubVelocityFF0        = 10;
     static const uint8_t kSubVelocityFF1        = 11;
     static const uint8_t kSubVelocityFF2        = 12;
-    static const uint8_t kSubPropellerKtPos     = 13;
-    static const uint8_t kSubPropellerKtNeg     = 14;
     static const uint8_t kSubTimeout            = 15;
     static const uint8_t kSubInputFilterFc      = 16;
     static const uint8_t kSubTimeoutMeaning     = 17;
