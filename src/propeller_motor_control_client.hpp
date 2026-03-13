@@ -1,5 +1,5 @@
 /*
-  Copyright 2025 Vertiq, Inc support@vertiq.co
+  Copyright 2026 Vertiq, Inc support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: propeller_motor_control_client.hpp
-  Last update: 2025-08-26 by Ben Quan
+  Last update: 2026-03-09 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -41,7 +41,8 @@ class PropellerMotorControlClient : public ClientAbstract {
           timeout_meaning_(kTypePropellerMotorControl, obj_idn, kSubTimeoutMeaning),
           timeout_behavior_(kTypePropellerMotorControl, obj_idn, kSubTimeoutBehavior),
           timeout_song_option_(kTypePropellerMotorControl, obj_idn, kSubTimeoutSongOption),
-          additional_velocity_(kTypePropellerMotorControl, obj_idn, kSubAdditionalVelocity){};
+          additional_velocity_(kTypePropellerMotorControl, obj_idn, kSubAdditionalVelocity),
+          ctrl_torque_(kTypePropellerMotorControl, obj_idn, kSubCtrlTorque){};
 
     // Client Entries
     // Control commands
@@ -67,9 +68,10 @@ class PropellerMotorControlClient : public ClientAbstract {
     ClientEntry<uint8_t> timeout_song_option_;
     //Additional Velocity
     ClientEntry<float> additional_velocity_;
+    ClientEntry<float> ctrl_torque_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubAdditionalVelocity + 1;
+        static const uint8_t kEntryLength              = kSubCtrlTorque + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
             &ctrl_mode_,           // 0
             &ctrl_brake_,          // 1
@@ -91,7 +93,8 @@ class PropellerMotorControlClient : public ClientAbstract {
             &timeout_meaning_,     // 17
             &timeout_behavior_,    // 18
             &timeout_song_option_, // 19
-            &additional_velocity_  // 20
+            &additional_velocity_, // 20
+            &ctrl_torque_          // 21
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
@@ -116,6 +119,7 @@ class PropellerMotorControlClient : public ClientAbstract {
     static const uint8_t kSubTimeoutBehavior    = 18;
     static const uint8_t kSubTimeoutSongOption  = 19;
     static const uint8_t kSubAdditionalVelocity = 20;
+    static const uint8_t kSubCtrlTorque         = 21;
 };
 
 #endif /* PROPELLER_MOTOR_CONTROL_CLIENT_HPP_ */
