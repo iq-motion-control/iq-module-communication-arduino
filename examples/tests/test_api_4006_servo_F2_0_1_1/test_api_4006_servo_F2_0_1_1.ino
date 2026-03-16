@@ -25,6 +25,8 @@ void setup() {
   }
   Serial.println();
 
+  Serial.print("-----testing iquart_flight_controller_interface-----");
+  Serial.println();
   uint8_t servoCvi = 0;
   if (ser.get(ifci.servo_cvi_, servoCvi)) {
     Serial.print("servo_cvi: ");
@@ -44,6 +46,8 @@ void setup() {
     Serial.println();
   }
 
+  Serial.print("-----testing uavcan_node-----");
+  Serial.println();
   uint32_t actuatorId = 0;
   if (ser.get(uavcanNode.actuator_id_, actuatorId)) {
     Serial.print("actuator_id: ");

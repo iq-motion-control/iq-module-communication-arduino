@@ -25,6 +25,8 @@ void setup() {
     }
     Serial.println();
 
+    Serial.print("-----testing uavcan_node-----");
+    Serial.println();
     uint32_t warningEnableBitmask = 0;
     if (ser.get(uavcanNode.warning_enable_bitmask_, warningEnableBitmask)){
       Serial.print("warning_enable_bitmask: ");
@@ -101,6 +103,8 @@ void setup() {
       Serial.println();
     }
 
+    Serial.print("-----testing throttle_source_manager-----");
+    Serial.println();
     uint8_t currentActiveThrottleSource = 0;
     if (ser.get(throttleSourceManager.current_active_throttle_source_, currentActiveThrottleSource)){
       Serial.print("current_active_throttle_source: ");
