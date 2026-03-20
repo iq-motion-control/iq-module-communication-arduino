@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 IQinetics Technologies, Inc support@iq-control.com
+  Copyright 2026 Vertiq support@vertiq.co
 
   This file is part of the IQ C++ API.
 
@@ -8,7 +8,7 @@
 
 /*
   Name: multi_turn_angle_control_client.hpp
-  Last update: 2025-08-26 by Ben Quan
+  Last update: 2026-03-20 by Ben Quan
   Author: Matthew Piccoli
   Contributors: Ben Quan, Raphael Van Hoffelen
 */
@@ -60,7 +60,8 @@ class MultiTurnAngleControlClient : public ClientAbstract {
           additional_velocity_(kTypeAngleMotorControl, obj_idn, kSubAdditionalVelocity),
           low_power_hold_allowed_target_error_(kTypeAngleMotorControl, obj_idn, kSubLowPowerHoldAllowedTargetError),
           low_power_hold_max_brake_error_(kTypeAngleMotorControl, obj_idn, kSubLowPowerHoldMaxBrakeError),
-          ctrl_angle_low_power_(kTypeAngleMotorControl, obj_idn, kSubCtrlAngleLowPower)
+          ctrl_angle_low_power_(kTypeAngleMotorControl, obj_idn, kSubCtrlAngleLowPower),
+          trajectory_queue_length_(kTypeAngleMotorControl, obj_idn, kSubTrajectoryQueueLength)
           {};
 
     // Client Entries
@@ -99,7 +100,7 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     ClientEntry<float> trajectory_linear_acceleration_;
     ClientEntry<float> trajectory_average_speed_;
     ClientEntry<int8_t> trajectory_queue_mode_;
-    ClientEntry<int32_t> ff_;
+    ClientEntry<uint32_t> ff_;
     ClientEntryVoid sample_zero_angle_;
     ClientEntry<float> zero_angle_;
     //Additional Velocity
@@ -107,87 +108,90 @@ class MultiTurnAngleControlClient : public ClientAbstract {
     ClientEntry<float> low_power_hold_allowed_target_error_;
     ClientEntry<float> low_power_hold_max_brake_error_;
     ClientEntry<float> ctrl_angle_low_power_;
+    ClientEntry<uint8_t> trajectory_queue_length_;
 
     void ReadMsg(uint8_t* rx_data, uint8_t rx_length) {
-        static const uint8_t kEntryLength              = kSubCtrlAngleLowPower + 1;
+        static const uint8_t kEntryLength              = kSubTrajectoryQueueLength + 1;
         ClientEntryAbstract* entry_array[kEntryLength] = {
-            &ctrl_mode_,                        // 0
-            &ctrl_brake_,                       // 1
-            &ctrl_coast_,                       // 2
-            &ctrl_angle_,                       // 3
-            &ctrl_velocity_,                    // 4
-            &angle_Kp_,                         // 5
-            &angle_Ki_,                         // 6
-            &angle_Kd_,                         // 7
-            &timeout_,                          // 8
-            &ctrl_pwm_,                         // 9
-            &ctrl_volts_,                       // 10
-            &obs_angular_displacement_,         // 11
-            &obs_angular_velocity_,             // 12
-            &meter_per_rad_,                    // 13
-            &ctrl_linear_displacement_,         // 14
-            &ctrl_linear_velocity_,             // 15
-            &obs_linear_displacement_,          // 16
-            &obs_linear_velocity_,              // 17
-            &angular_speed_max_,                // 18
-            &trajectory_angular_displacement_,  // 19
-            &trajectory_angular_velocity_,      // 20
-            &trajectory_angular_acceleration_,  // 21
-            &trajectory_duration_,              // 22
-            &trajectory_linear_displacement_,   // 23
-            &trajectory_linear_velocity_,       // 24
-            &trajectory_linear_acceleration_,   // 25
-            &trajectory_average_speed_,         // 26
-            &trajectory_queue_mode_,            // 27
-            nullptr,                            // 28
-            &ff_,                               // 29
-            &sample_zero_angle_,                // 30
-            &zero_angle_,                       // 31
-            &additional_velocity_,               // 32
-            &low_power_hold_allowed_target_error_, // 33
-            &low_power_hold_max_brake_error_, // 34
-            &ctrl_angle_low_power_ // 35
+            &ctrl_mode_,                            // 0
+            &ctrl_brake_,                           // 1
+            &ctrl_coast_,                           // 2
+            &ctrl_angle_,                           // 3
+            &ctrl_velocity_,                        // 4
+            &angle_Kp_,                             // 5
+            &angle_Ki_,                             // 6
+            &angle_Kd_,                             // 7
+            &timeout_,                              // 8
+            &ctrl_pwm_,                             // 9
+            &ctrl_volts_,                           // 10
+            &obs_angular_displacement_,             // 11
+            &obs_angular_velocity_,                 // 12
+            &meter_per_rad_,                        // 13
+            &ctrl_linear_displacement_,             // 14
+            &ctrl_linear_velocity_,                 // 15
+            &obs_linear_displacement_,              // 16
+            &obs_linear_velocity_,                  // 17
+            &angular_speed_max_,                    // 18
+            &trajectory_angular_displacement_,      // 19
+            &trajectory_angular_velocity_,          // 20
+            &trajectory_angular_acceleration_,      // 21
+            &trajectory_duration_,                  // 22
+            &trajectory_linear_displacement_,       // 23
+            &trajectory_linear_velocity_,           // 24
+            &trajectory_linear_acceleration_,       // 25
+            &trajectory_average_speed_,             // 26
+            &trajectory_queue_mode_,                // 27
+            nullptr,                                // 28
+            &ff_,                                   // 29
+            &sample_zero_angle_,                    // 30
+            &zero_angle_,                           // 31
+            &additional_velocity_,                  // 32
+            &low_power_hold_allowed_target_error_,  // 33
+            &low_power_hold_max_brake_error_,       // 34
+            &ctrl_angle_low_power_,                 // 35
+            &trajectory_queue_length_               // 36
         };
 
         ParseMsg(rx_data, rx_length, entry_array, kEntryLength);
     }
 
    private:
-    static const uint8_t kSubCtrlMode                      = 0;
-    static const uint8_t kSubCtrlBrake                     = 1;
-    static const uint8_t kSubCtrlCoast                     = 2;
-    static const uint8_t kSubCtrlAngle                     = 3;
-    static const uint8_t kSubCtrlVelocity                  = 4;
-    static const uint8_t kSubAngleKp                       = 5;
-    static const uint8_t kSubAngleKi                       = 6;
-    static const uint8_t kSubAngleKd                       = 7;
-    static const uint8_t kSubTimeout                       = 8;
-    static const uint8_t kSubCtrlPwm                       = 9;
-    static const uint8_t kSubCtrlVolts                     = 10;
-    static const uint8_t kSubObsAngularDisplacement        = 11;
-    static const uint8_t kSubObsAngularVelocity            = 12;
-    static const uint8_t kSubMeterPerRad                   = 13;
-    static const uint8_t kSubCtrlLinearDisplacement        = 14;
-    static const uint8_t kSubCtrlLinearVelocity            = 15;
-    static const uint8_t kSubObsLinearDisplacement         = 16;
-    static const uint8_t kSubObsLinearVelocity             = 17;
-    static const uint8_t kSubAngularSpeedMax               = 18;
-    static const uint8_t kSubTrajectoryAngularDisplacement = 19;
-    static const uint8_t kSubTrajectoryAngularVelocity     = 20;
-    static const uint8_t kSubTrajectoryAngularAcceleration = 21;
-    static const uint8_t kSubTrajectoryDuration            = 22;
-    static const uint8_t kSubTrajectoryLinearDisplacement  = 23;
-    static const uint8_t kSubTrajectoryLinearVelocity      = 24;
-    static const uint8_t kSubTrajectoryLinearAcceleration  = 25;
-    static const uint8_t kSubTrajectoryAverageSpeed        = 26;
-    static const uint8_t kSubTrajectoryQueueMode           = 27;
-    static const uint8_t kSubFF                            = 29;
-    static const uint8_t kSubSampleZeroAngle               = 30;
-    static const uint8_t kSubZeroAngle                     = 31;
-    static const uint8_t kSubAdditionalVelocity            = 32;
+    static const uint8_t kSubCtrlMode                       = 0;
+    static const uint8_t kSubCtrlBrake                      = 1;
+    static const uint8_t kSubCtrlCoast                      = 2;
+    static const uint8_t kSubCtrlAngle                      = 3;
+    static const uint8_t kSubCtrlVelocity                   = 4;
+    static const uint8_t kSubAngleKp                        = 5;
+    static const uint8_t kSubAngleKi                        = 6;
+    static const uint8_t kSubAngleKd                        = 7;
+    static const uint8_t kSubTimeout                        = 8;
+    static const uint8_t kSubCtrlPwm                        = 9;
+    static const uint8_t kSubCtrlVolts                      = 10;
+    static const uint8_t kSubObsAngularDisplacement         = 11;
+    static const uint8_t kSubObsAngularVelocity             = 12;
+    static const uint8_t kSubMeterPerRad                    = 13;
+    static const uint8_t kSubCtrlLinearDisplacement         = 14;
+    static const uint8_t kSubCtrlLinearVelocity             = 15;
+    static const uint8_t kSubObsLinearDisplacement          = 16;
+    static const uint8_t kSubObsLinearVelocity              = 17;
+    static const uint8_t kSubAngularSpeedMax                = 18;
+    static const uint8_t kSubTrajectoryAngularDisplacement  = 19;
+    static const uint8_t kSubTrajectoryAngularVelocity      = 20;
+    static const uint8_t kSubTrajectoryAngularAcceleration  = 21;
+    static const uint8_t kSubTrajectoryDuration             = 22;
+    static const uint8_t kSubTrajectoryLinearDisplacement   = 23;
+    static const uint8_t kSubTrajectoryLinearVelocity       = 24;
+    static const uint8_t kSubTrajectoryLinearAcceleration   = 25;
+    static const uint8_t kSubTrajectoryAverageSpeed         = 26;
+    static const uint8_t kSubTrajectoryQueueMode            = 27;
+    static const uint8_t kSubFF                             = 29;
+    static const uint8_t kSubSampleZeroAngle                = 30;
+    static const uint8_t kSubZeroAngle                      = 31;
+    static const uint8_t kSubAdditionalVelocity             = 32;
     static const uint8_t kSubLowPowerHoldAllowedTargetError = 33;
-    static const uint8_t kSubLowPowerHoldMaxBrakeError = 34;
-    static const uint8_t kSubCtrlAngleLowPower = 35;
+    static const uint8_t kSubLowPowerHoldMaxBrakeError      = 34;
+    static const uint8_t kSubCtrlAngleLowPower              = 35;
+    static const uint8_t kSubTrajectoryQueueLength          = 36;
 };
 
 #endif /* MULTI_TURN_ANGLE_CONTROL_CLIENT_HPP_ */

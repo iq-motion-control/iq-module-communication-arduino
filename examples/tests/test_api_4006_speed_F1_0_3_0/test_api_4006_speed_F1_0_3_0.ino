@@ -2,6 +2,7 @@
 
 IqSerial ser(Serial1);  // Use the hardware serial port on arduino board
 UavcanNodeClient uavcanNode(0);                       // Initialize UAVCAN Node Client
+MultiTurnAngleControlClient multiTurnAngleControl(0); // Initialize Multi Turn Angle Control Client
 ThrottleSourceManagerClient throttleSourceManager(0); // Initialize Throttle Source Manager Client
 SystemControlClient sysctrl(0);                       // Initialize System Control Client
 
@@ -111,6 +112,35 @@ void setup() {
       Serial.print(currentActiveThrottleSource);
       Serial.println();
     }
+
+    Serial.print("-----testing multi_turn_angle_control-----");
+    Serial.println();
+    uint8_t trajectoryQueueLength = 0;
+    if (ser.get(multiTurnAngleControl.trajectory_queue_length_, trajectoryQueueLength)){
+      Serial.print("trajectory_queue_length: ");
+      Serial.print(currentActiveThrottleSource);
+      Serial.println();
+    }
+
+    uint32_t FF = 0;
+    if (ser.get(multiTurnAngleControl.ff_, FF)){
+      Serial.print("ff: ");
+      Serial.print(FF);
+      Serial.println();
+    }
+
+    uint32_t newFFValue = 2;
+    uint32_t newFF = 0;
+    Serial.print("setting ff: ");
+    Serial.print(newFFValue);
+    Serial.println();
+    ser.set(multiTurnAngleControl.ff_, newFFValue);
+    if (ser.get(multiTurnAngleControl.ff_, newFF)){
+      Serial.print("new ff: ");
+      Serial.print(newFF);
+      Serial.println();
+    }
+
 
 }
 
