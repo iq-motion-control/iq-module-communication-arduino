@@ -6,7 +6,6 @@ SystemControlClient sysctrl(0);          // Initialize System Control Client
 EscPropellerInputParserClient epip(0);   // Initialize ESC Propeller Input Parser Client
 PropellerMotorControlClient pmc(0);      // Initialize Propeller Motor Control Client
 
-
 void setup() {
   // put your setup code here, to run once:
   // Set up serial port
@@ -71,15 +70,4 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  // float volts = 1.0;
-  // ser.set(bdrive.drive_spin_volts_, volts);
-
-  // delay(5000);
-  // ser.set(bdrive.drive_coast_);
-
-  // delay(1000);
-
-  // ser.set(stowUserInterface.stow_);
-
-  // delay(1000);
 }
