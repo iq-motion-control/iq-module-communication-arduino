@@ -1,10 +1,11 @@
 #include "iq_module_communication.hpp"
 
 IqSerial ser(Serial1);  // Use the hardware serial port on arduino board
-UavcanNodeClient uavcanNode(0);                       // Initialize UAVCAN Node Client with Module ID 0
-MultiTurnAngleControlClient multiTurnAngleControl(0); // Initialize Multi Turn Angle Control Client with Module ID 0
-ThrottleSourceManagerClient throttleSourceManager(0); // Initialize Throttle Source Manager Client with Module ID 0
-SystemControlClient sysctrl(0);                       // Initialize System Control Client
+EscPropellerInputParserClient escPropellerInputParser(0);   // Initialize ESC Propeller Input Parser Client with Module ID 0
+UavcanNodeClient uavcanNode(0);                             // Initialize UAVCAN Node Client with Module ID 0
+MultiTurnAngleControlClient multiTurnAngleControl(0);       // Initialize Multi Turn Angle Control Client with Module ID 0
+ThrottleSourceManagerClient throttleSourceManager(0);       // Initialize Throttle Source Manager Client with Module ID 0
+SystemControlClient sysctrl(0);                             // Initialize System Control Client
 
 void setup() {
     // put your setup code here, to run once:
@@ -110,6 +111,18 @@ void setup() {
       Serial.print("current_active_throttle_source: ");
       Serial.print(currentActiveThrottleSource);
       Serial.println();
+    }
+    float rawValue = 1.0;
+    Serial.print("Setting ESC Propeller Input Parser raw_value_: ");
+    Serial.print(rawValue);
+    Serial.println();
+    ser.set(escPropellerInputParser.raw_value_, rawValue);
+    uint8_t newCurrentActiveThrottleSource = 0;
+    if (ser.get(throttleSourceManager.current_active_throttle_source_, newCurrentActiveThrottleSource)){
+      Serial.print("current_active_throttle_source after setting raw_value_: ");
+      Serial.print(newCurrentActiveThrottleSource);
+      Serial.println();
+
     }
 
     Serial.print("-----testing multi_turn_angle_control-----");
