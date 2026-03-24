@@ -28,6 +28,7 @@ void setup() {
 
     Serial.print("-----testing uavcan_node-----");
     Serial.println();
+
     uint32_t warningEnableBitmask = 0;
     if (ser.get(uavcanNode.warning_enable_bitmask_, warningEnableBitmask)){
       Serial.print("warning_enable_bitmask: ");
@@ -40,6 +41,7 @@ void setup() {
     Serial.print("setting warning_enable_bitmask: ");
     Serial.print(newWarningEnableBitmaskValue);
     Serial.println();
+
     ser.set(uavcanNode.warning_enable_bitmask_, newWarningEnableBitmaskValue);
     if (ser.get(uavcanNode.warning_enable_bitmask_, newWarningEnableBitmask)){
       Serial.print("new warning_enable_bitmask: ");
@@ -60,6 +62,7 @@ void setup() {
     Serial.print("setting error_enable_bitmask: ");
     Serial.print(newErrorEnableBitmaskValue);
     Serial.println();
+
     ser.set(uavcanNode.error_enable_bitmask_, newErrorEnableBitmaskValue);
     if (ser.get(uavcanNode.error_enable_bitmask_, newErrorEnableBitmask)){
       Serial.print("new error_enable_bitmask: ");
@@ -73,11 +76,13 @@ void setup() {
       Serial.print(criticalEnableBitmask);
       Serial.println();
     }
+
     uint32_t newCriticalEnableBitmaskValue = 2;
     uint32_t newCriticalEnableBitmask = 0;
     Serial.print("setting critical_enable_bitmask: ");
     Serial.print(newErrorEnableBitmaskValue);
     Serial.println();
+
     ser.set(uavcanNode.critical_enable_bitmask_, newCriticalEnableBitmaskValue);
     if (ser.get(uavcanNode.critical_enable_bitmask_, newCriticalEnableBitmask)){
       Serial.print("new critical_enable_bitmask: ");
@@ -97,6 +102,7 @@ void setup() {
     Serial.print("setting error_count_configuration: ");
     Serial.print(newErrorCountConfigurationValue);
     Serial.println();
+
     ser.set(uavcanNode.error_count_configuration_, newErrorCountConfigurationValue);
     if (ser.get(uavcanNode.error_count_configuration_, newErrorCountConfiguration)){
       Serial.print("new error_count_configuration: ");
@@ -112,11 +118,13 @@ void setup() {
       Serial.print(currentActiveThrottleSource);
       Serial.println();
     }
-    float rawValue = 1.0;
+
+    float rawValue = 0.0;
     Serial.print("Setting ESC Propeller Input Parser raw_value_: ");
     Serial.print(rawValue);
     Serial.println();
     ser.set(escPropellerInputParser.raw_value_, rawValue);
+
     uint8_t newCurrentActiveThrottleSource = 0;
     if (ser.get(throttleSourceManager.current_active_throttle_source_, newCurrentActiveThrottleSource)){
       Serial.print("current_active_throttle_source after setting raw_value_: ");
@@ -152,8 +160,6 @@ void setup() {
       Serial.print(newFF);
       Serial.println();
     }
-
-
 }
 
 void loop() {
