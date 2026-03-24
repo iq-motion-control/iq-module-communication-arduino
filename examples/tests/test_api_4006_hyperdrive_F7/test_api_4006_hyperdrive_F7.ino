@@ -2,15 +2,17 @@
 
 IqSerial ser(Serial1);                          // Use the hardware serial port on arduino board
 
-SystemControlClient sysctrl(0);          // Initialize System Control Client
-EscPropellerInputParserClient epip(0);   // Initialize ESC Propeller Input Parser Client
-PropellerMotorControlClient pmc(0);      // Initialize Propeller Motor Control Client
+SystemControlClient sysctrl(0);          // Initialize System Control Client with Module ID 0
+EscPropellerInputParserClient epip(0);   // Initialize ESC Propeller Input Parser Client with Module ID 0
+PropellerMotorControlClient pmc(0);      // Initialize Propeller Motor Control Client with Module ID 0
 
+// This test involves spinning your module.
+// Please make sure no propellers are attached and your module is secured!
 void setup() {
   // put your setup code here, to run once:
-  // Set up serial port
+  // Set up serial port for the module and the Serial Monitor
   ser.begin(115200);
-  Serial.begin(115200);  // This is used to print out voltage to the Serial Monitor
+  Serial.begin(115200);  // this is used to print out client entry values to the serial monitor
   Serial.println("Starting script");
 
   // Get motor id
@@ -55,6 +57,8 @@ void setup() {
     Serial.println();
   }
 
+  // This test will attempt to spin your module.
+  // Please make sure no propellers are attached and your module is secured!
   float newCtrlTorqueValue = 0.10;
   float newCtrlTorque = 0;
   Serial.print("setting ctrl_torque: ");

@@ -1,16 +1,16 @@
 #include "iq_module_communication.hpp"
 
 IqSerial ser(Serial1);  // Use the hardware serial port on arduino board
-UavcanNodeClient uavcanNode(0);                       // Initialize UAVCAN Node Client
-MultiTurnAngleControlClient multiTurnAngleControl(0); // Initialize Multi Turn Angle Control Client
-ThrottleSourceManagerClient throttleSourceManager(0); // Initialize Throttle Source Manager Client
+UavcanNodeClient uavcanNode(0);                       // Initialize UAVCAN Node Client with Module ID 0
+MultiTurnAngleControlClient multiTurnAngleControl(0); // Initialize Multi Turn Angle Control Client with Module ID 0
+ThrottleSourceManagerClient throttleSourceManager(0); // Initialize Throttle Source Manager Client with Module ID 0
 SystemControlClient sysctrl(0);                       // Initialize System Control Client
 
 void setup() {
     // put your setup code here, to run once:
-    // Set up serial port
+    // Set up serial port for the module and the Serial Monitor
     ser.begin(115200);
-    Serial.begin(115200);  // This is used to print out voltage to the Serial Monitor
+    Serial.begin(115200);  // this is used to print out client entry values to the serial monitor
     Serial.println("Starting script");
 
     // Get motor id

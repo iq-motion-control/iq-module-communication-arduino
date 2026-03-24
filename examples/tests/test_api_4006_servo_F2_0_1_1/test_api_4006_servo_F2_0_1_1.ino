@@ -1,15 +1,15 @@
 #include "iq_module_communication.hpp"
 
 IqSerial ser(Serial1);                          // Use the hardware serial port on arduino board
-IQUartFlightControllerInterfaceClient ifci(0);  // Initialize IQUart Flight Controller Interface Client
-UavcanNodeClient uavcanNode(0);                 // Initialize UAVCAN Node Client
-SystemControlClient sysctrl(0);                 // Initialize System Control Client
+IQUartFlightControllerInterfaceClient ifci(0);  // Initialize IQUart Flight Controller Interface Client with Module ID 0
+UavcanNodeClient uavcanNode(0);                 // Initialize UAVCAN Node Client with Module ID 0
+SystemControlClient sysctrl(0);                 // Initialize System Control Client with Module ID 0
 
 void setup() {
   // put your setup code here, to run once:
-  // Set up serial port
+  // Set up serial port for the module and the Serial Monitor
   ser.begin(115200);
-  Serial.begin(115200);  // This is used to print out voltage to the Serial Monitor
+  Serial.begin(115200);  // This is used to print out client entry values to the Serial Monitor
   Serial.println("Starting script");
 
   // Get motor id
