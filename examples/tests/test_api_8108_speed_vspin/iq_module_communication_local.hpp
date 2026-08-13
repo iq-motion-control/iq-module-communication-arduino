@@ -46,3 +46,4 @@
 #include "uavcan_node_client.hpp"
 #include "voltage_superposition_client.hpp"
 #include "voltage_target_generator_client.hpp"
+#include "field_weakening_controller_client.hpp"
